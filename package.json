@@ -6,7 +6,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "node --check public/form.js && node --check netlify/functions/api.cjs && node --check server/index.js"
+    "build": "node --check public/form.js && node --check netlify/functions/api.mjs && node --check server/index.js"
   },
   "dependencies": {
     "appwrite": "28.1.0",
