@@ -1,4 +1,4 @@
-exports.handler = async (event, context) => {
+export const handler = async (event, context) => {
   const [{ default: serverless }, { default: app }] =
     await Promise.all([
       import("serverless-http"),
