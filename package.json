@@ -6,7 +6,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "node scripts/prepare-netlify.mjs && node server/build-admin.mjs"
+    "build": "echo no-build-step-needed"
   },
   "dependencies": {
     "appwrite": "28.1.0",
