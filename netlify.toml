@@ -4,8 +4,6 @@
 
 [functions]
   node_bundler = "esbuild"
-  external_node_modules = ["express", "multer", "cors", "express-rate-limit", "node-appwrite", "zod", "dotenv", "serverless-http"]
-  included_files = ["server/index.js", "server/package.json"]
 
 [[redirects]]
   from = "/api/*"
