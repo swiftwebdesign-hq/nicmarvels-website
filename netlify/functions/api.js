@@ -1,4 +1,9 @@
-import serverless from "serverless-http";
-import app from "../../server/index.js";
+exports.handler = async (event, context) => {
+  const [{ default: serverless }, { default: app }] =
+    await Promise.all([
+      import("serverless-http"),
+      import("../../server/index.js")
+    ]);
 
-export const handler = serverless(app);
+  return serverless(app)(event, context);
+};
