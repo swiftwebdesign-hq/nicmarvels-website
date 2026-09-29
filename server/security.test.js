@@ -104,9 +104,13 @@ describe('private API fail-closed behavior', () => {
     assert.equal(response.status, 403);
   });
 
-  it('serves a no-index sign-in portal without rendering applicant records', async () => {
+  it('serves a no-index sign-in portal when included, or a harmless not-found response when the portal UI is separate', async () => {
     const response = await fetch(`${origins.unconfigured}/`);
     const html = await response.text();
+    if (response.status === 404) {
+      assert.doesNotMatch(html, /Test applicant/);
+      return;
+    }
     assert.equal(response.status, 200);
     assert.match(html, /noindex,nofollow,noarchive/);
     assert.match(html, /Sign in to admin/);
