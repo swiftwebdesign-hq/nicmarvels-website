@@ -1,14 +1,15 @@
-const serverless = require('serverless-http');
+// netlify/functions/api.js
+//
+// Static top-level imports. esbuild (Netlify's node_bundler) follows these at
+// build time and inlines server/index.js plus every npm package it imports
+// (express, cors, multer, zod, node-appwrite, express-rate-limit, …) into the
+// single Lambda file. Nothing is resolved at runtime, so there is no
+// node_modules and no /var/task/server/ directory to find on Lambda.
+//
+// Requires "type": "module" in the repository root package.json, which is
+// already present.
 
-let handlerPromise;
+import serverless from 'serverless-http';
+import app from '../../server/index.js';
 
-exports.handler = async (event, context) => {
-  if (!handlerPromise) {
-    handlerPromise = import('../../server/index.js').then(({ default: app }) => {
-      return serverless(app);
-    });
-  }
-
-  const handler = await handlerPromise;
-  return handler(event, context);
-};
+export const handler = serverless(app);
