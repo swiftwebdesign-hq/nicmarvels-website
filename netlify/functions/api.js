@@ -80702,7 +80702,7 @@ var submissionSchema = external_exports.object({
   guardianAddress: optionalText(500),
   guardianPhone: optionalText(80),
   guardianEmail: external_exports.union([external_exports.literal(""), external_exports.string().trim().email().max(320)]).optional().default(""),
-  declarationAccepted: external_exports.literal("yes")
+  declarationAccepted: external_exports.literal("yes").transform(() => true)
 });
 function uploadedImageKind(buffer) {
   if (buffer.length >= 8 && buffer.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))) {

@@ -187,7 +187,7 @@ const submissionSchema = z.object({
   guardianAddress: optionalText(500),
   guardianPhone: optionalText(80),
   guardianEmail: z.union([z.literal(''), z.string().trim().email().max(320)]).optional().default(''),
-  declarationAccepted: z.literal('yes'),
+  declarationAccepted: z.literal('yes').transform(() => true),
 });
 
 function uploadedImageKind(buffer) {
