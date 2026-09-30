@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
@@ -17,7 +18,14 @@ import { InputFile } from 'node-appwrite/file';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const currentDir = path.dirname(fileURLToPath(import.meta.url));
+const currentDir = (() => {
+  if (typeof __dirname === 'string') return __dirname;
+  try {
+    const metaUrl = typeof import.meta !== 'undefined' ? import.meta.url : undefined;
+    if (metaUrl) return path.dirname(fileURLToPath(metaUrl));
+  } catch {}
+  return process.cwd();
+})();
 
 // Detect serverless execution. Netlify does not reliably set NETLIFY=true on
 // the Lambda, so we also check the AWS-provided variables that are always
@@ -30,11 +38,6 @@ const isServerless =
 // Load a local .env only when running standalone (local dev / tests).
 // On Netlify, environment variables come from the dashboard, so this branch is
 // skipped and the dynamic import never executes at runtime on Lambda.
-if (!isServerless) {
-  const dotenvPath = process.env.DOTENV_CONFIG_PATH || path.resolve(currentDir, '.env');
-  const dotenv = await import('dotenv');
-  dotenv.default.config({ path: dotenvPath });
-}
 
 const app = express();
 const PORT = Number(process.env.PORT || 4173);
