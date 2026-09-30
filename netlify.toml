@@ -4,7 +4,7 @@
 
 [functions]
   node_bundler = "esbuild"
-  included_files = ["server/index.js"]
+  included_files = ["server/index.js", "server/package.json"]
 
 [[redirects]]
   from = "/api/*"
