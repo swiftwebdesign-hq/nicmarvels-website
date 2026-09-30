@@ -4,7 +4,17 @@
 
 [functions]
   node_bundler = "esbuild"
-  included_files = ["server/index.js", "server/package.json"]
+
+# ---------------------------------------------------------------------------
+# DO NOT add included_files here for JavaScript sources.
+# included_files copies raw files into the Lambda zip but does NOT install
+# npm dependencies. Listing server/index.js causes
+#   ERR_MODULE_NOT_FOUND: Cannot find package 'express'
+# at runtime. esbuild bundling (above) is the correct mechanism.
+#
+# DO NOT add external_node_modules here either. That forces runtime resolution
+# against a node_modules directory that does not exist on Lambda.
+# ---------------------------------------------------------------------------
 
 [[redirects]]
   from = "/api/*"
